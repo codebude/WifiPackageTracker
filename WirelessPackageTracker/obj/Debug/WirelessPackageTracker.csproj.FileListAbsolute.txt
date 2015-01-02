@@ -1,0 +1,13 @@
+c:\users\netbl_000\documents\visual studio 2013\Projects\WirelessPackageTracker\WirelessPackageTracker\bin\Debug\WirelessPackageTracker.exe.config
+c:\users\netbl_000\documents\visual studio 2013\Projects\WirelessPackageTracker\WirelessPackageTracker\bin\Debug\WirelessPackageTracker.exe
+c:\users\netbl_000\documents\visual studio 2013\Projects\WirelessPackageTracker\WirelessPackageTracker\bin\Debug\WirelessPackageTracker.pdb
+c:\users\netbl_000\documents\visual studio 2013\Projects\WirelessPackageTracker\WirelessPackageTracker\obj\Debug\WirelessPackageTracker.csprojResolveAssemblyReference.cache
+c:\users\netbl_000\documents\visual studio 2013\Projects\WirelessPackageTracker\WirelessPackageTracker\obj\Debug\WirelessPackageTracker.Form1.resources
+c:\users\netbl_000\documents\visual studio 2013\Projects\WirelessPackageTracker\WirelessPackageTracker\obj\Debug\WirelessPackageTracker.Properties.Resources.resources
+c:\users\netbl_000\documents\visual studio 2013\Projects\WirelessPackageTracker\WirelessPackageTracker\obj\Debug\WirelessPackageTracker.csproj.GenerateResource.Cache
+c:\users\netbl_000\documents\visual studio 2013\Projects\WirelessPackageTracker\WirelessPackageTracker\obj\Debug\WirelessPackageTracker.exe
+c:\users\netbl_000\documents\visual studio 2013\Projects\WirelessPackageTracker\WirelessPackageTracker\obj\Debug\WirelessPackageTracker.pdb
+C:\Users\netbl_000\documents\visual studio 2013\Projects\WirelessPackageTracker\WirelessPackageTracker\bin\Debug\OnBarcode.Barcode.BarcodeScanner.dll
+Y:\Developer Projects\C# aktuell\WirelessPackageTracker\WirelessPackageTracker\bin\Debug\WirelessPackageTracker.exe.config
+Y:\Developer Projects\C# aktuell\WirelessPackageTracker\WirelessPackageTracker\obj\Debug\WirelessPackageTracker.exe
+Y:\Developer Projects\C# aktuell\WirelessPackageTracker\WirelessPackageTracker\obj\Debug\WirelessPackageTracker.pdb

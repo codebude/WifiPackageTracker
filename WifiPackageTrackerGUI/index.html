@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>WifiPackageTracker GUI</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+   
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">WifiPackageTracker GUI</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li id="bc_1" class="active"><a href="#">Start</a></li>
+            <li id="bc_2"><a href="#">Auftragszuordnung</a></li>
+            <li id="bc_3"><a href="#">Bilderfassung</a></li>
+            <li id="bc_4"><a href="#">Abschluss</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="container">
+
+      <div id="main-content" class="jumbotron" style="text-align:center;">
+        <div id="con_1">
+          <h1>WifiPackageTracker</h1>
+          <p>Um einen neuen Vorgang zu starten, drücken Sie den "Start"-Button.</p>
+          <p style="margin-top:75px;"><button id="btnGo" class="btn btn-success btn-lg">Erfassung starten</button></p>
+        </div>
+        <div id="con_2" style="display:none;">
+          <h1>Sendungsnummer erfassen</h1>
+          <p>Geben Sie eine Sendungsnummer ein <strong>oder</strong> nehmen Sie ein <br/>Foto vom Sendungscode auf und warten Sie einen Moment.</p>
+
+          <div class="container-fluid" style="margin-top:50px;">
+            <div class="row">
+               <div class="col-md-6">
+                  <div class="jumbotron jumbotron-1">
+                    <div class="input-group">
+                      <span class="input-group-addon">Sendungsnummer</span>
+                      <input type="text" id="txtSendungsnr" class="form-control" placeholder="Geben Sie eine Nummer ein...">
+                    </div>
+                    <button id="btnGo2_1" class="btn btn-success btn-lg" style="margin-top:30px;" disabled>Fortfahren</button>
+                  </div>
+               </div>
+               <div class="col-md-6">
+                  <div class="jumbotron jumbotron-1" style="padding-top:0px;padding-bottom:5px;">
+                    <div id="codeWait">
+                      <img src="images/cam.png" alt="Kamera" class="img-circle" style="margin-top:5px;margin-bottom:5px;"><br/><div class="alert alert-info" role="alert">Machen Sie ein Foto von der Sendungsmarke.</div>
+                    </div>
+                    <div id="codeAnalyze" style="display:none">
+                      <img src="images/analyze.png" alt="Kamera" class="img-circle" style="margin-top:5px;margin-bottom:5px;"><br/><div class="alert alert-warning" role="alert">Analysiere Paketmarke.</div>
+                    </div>
+                    <div id="codeFail" style="display:none">
+                      <img src="images/cam.png" alt="Kamera" class="img-circle" style="margin-top:5px;margin-bottom:5px;"><br/><div class="alert alert-danger" role="alert">Kein Code gefunden. Machen Sie ein weiteres Foto.</div>
+                    </div>
+                    <div id="codeGot" style="display:none">
+                      <img style="border-radius: 5px;margin-bottom: 5px;margin-top: 5px;" id="bCodeImg" src="images/cam.png" alt="Kamera" class="img-circle"><br/>
+                      <div class="input-group">
+                        <span class="input-group-addon">Sendungsnummer</span>
+                        <input type="text" id="txtSendungsnr_2" class="form-control" placeholder="">
+                      </div>                      
+                      <button id="btnGo2_2" class="btn btn-success btn-lg" style="margin-top:5px;">Fortfahren</button>
+                    </div>
+                  </div>
+               </div>
+            </div>
+          </div>        
+        </div>
+         <div id="con_3" style="display:none;">
+          <h1>Fotos erfassen</h1>
+          <p>Machen Sie nun Aufnahmen der Sendung. Wenn Sie fertig sind, klicken Sie auf den "Abschlie&szlig;en"-Button.</p>
+          <div class="container-fluid" style="margin-top:50px;">
+            <div class="row" id="con_prev">               
+            </div>
+            <p style="margin-top:75px;"><button id="btnFinalize" class="btn btn-success btn-lg">Abschlie&szlig;en</button></p>
+          </div>        
+        </div>
+        <div id="con_4" style="display:none;">
+          <h1>Erfassung beendet</h1>          
+          <div class="container-fluid" style="margin-top:50px;">
+            <div class="row" id="final_ok" style="display:none;">               
+              <img src="images/fine.png" alt="Kamera" class="img-rounded" style="width:128px;margin-top:5px;margin-bottom:5px;">
+              <p>Aufnahmen erfolgreich gesichert. Weiter geht's!</p>
+            </div>
+            <div class="row" id="final_error" style="display:none;">               
+              <img src="images/error.png" alt="Kamera" class="img-rounded" style="width:128px;margin-top:5px;margin-bottom:5px;">
+              <p>Fehler bei der Verarbeitung. Bitte starten Sie die Erfassung neu.</p>
+            </div>
+            <p style="margin-top:75px;"><button id="btnRestart" class="btn btn-success btn-lg">N&auml;chste Erfassung</button></p>
+          </div>        
+        </div>
+     </div>
+
+
+    <div id="modalErr" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schli&szlig;en</span></button>
+            <h4 class="modal-title" id="myModalLabel">Fehler</h4>
+          </div>
+          <div class="modal-body">
+            Es gab ein Problem mit dem Server. Bitte probieren Sie es erneut.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="modalErrTake" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schli&szlig;en</span></button>
+            <h4 class="modal-title" id="myModalLabel">Fehler</h4>
+          </div>
+          <div class="modal-body">
+            Bitte machen Sie mindestens eine Aufnahme!
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="modalErrUsed" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Schli&szlig;en</span></button>
+            <h4 class="modal-title" id="myModalLabel">Fehler</h4>
+          </div>
+          <div class="modal-body">
+            Diese Sendungsnummer ist bereits vergeben. Bitte wählen Sie eine andere Nummer.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+          </div>
+        </div>
+      </div>
+    </div>
+</div><!-- /.container -->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.blockUI.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+      //var serverIp = "192.168.178.25:8080";
+      var serverIp = "192.168.178.36:8080";
+      var debug = false;
+
+      $( document ).ready(function() {
+          console.log( "ready!" );
+
+          $('#btnGo').click(function(){
+
+            $.blockUI({ message: '<h1><img src="images/loading.gif" />Lade Daten...</h1>' }); 
+            $.get('http://'+serverIp+'/set/start', function( data ) {
+
+              if (data!="OK")
+              {
+                $('#modalErr').modal('show');
+              }
+              else
+              {
+                $('#bc_1').removeClass("active");
+                $('#bc_2').addClass("active");
+                $('#con_1').hide('slow');
+                $('#con_2').show('slow');
+                setTimeout(loadBCode, 2000);
+              }
+
+            }).fail(function() {
+              $('#modalErr').modal('show');
+            }).always(function(){$.unblockUI();});
+          });
+
+
+
+          $('#btnGo2_1').click(function(){
+            $.get('http://'+serverIp+'/get/takevalid', { take_id : $('#txtSendungsnr').val() }, function( data ) {
+              if (data!="OK")
+              {
+                $('#modalErrUsed').modal('show');
+              }
+              else
+              {
+                 startTake($('#txtSendungsnr').val());
+              }
+            }).fail(function() {
+              $('#modalErr').modal('show');
+            });           
+          });
+
+          $('#btnGo2_2').click(function(){
+            $.get('http://'+serverIp+'/get/takevalid', { take_id : $('#txtSendungsnr_2').val() }, function( data ) {
+              if (data!="OK")
+              {
+                $('#modalErrUsed').modal('show');
+              }
+              else
+              {
+                 startTake($('#txtSendungsnr_2').val());
+              }
+            }).fail(function() {
+              $('#modalErr').modal('show');
+            });   
+          });
+
+          $('#btnRestart').click(function(){
+            location.reload();
+          });
+       
+
+          $('#btnFinalize').click(function(){
+            if ($('.close-take-img').size() == 0)
+            {
+              $('#modalErrTake').modal('show');
+            }
+            else
+            {
+              $.blockUI({ message: '<h1><img src="images/loading.gif" />Lade Daten...</h1>' }); 
+              $.get('http://'+serverIp+'/set/finalize', function( data ) {
+                $('#con_3').hide('slow');
+                $('#con_4').show('slow');
+                $('#bc_3').removeClass("active");
+                $('#bc_4').addClass("active");
+                if (data!="OK")
+                {
+                  $('#final_error').show('slow');
+                }
+                else
+                {
+                  $('#final_ok').show('slow');
+                }
+
+              }).fail(function() {
+                $('#modalErr').modal('show');
+              }).always(function(){$.unblockUI();});
+            }
+
+          });
+
+
+          $(document).on('click', '.close-take-img', function(){ 
+
+              var takeId = $(this).attr('id').substring(6);
+              $.get('http://'+serverIp+'/set/take/delete', { take_id : takeId }, function( data ) {
+
+              if (data!="OK")
+              {
+                $('#modalErr').modal('show');
+              }
+              else
+              {
+                $('#img-'+takeId).hide('slow', function(){ $('#img-'+takeId).remove(); });
+              }
+
+            }).fail(function() {
+              $('#modalErr').modal('show');
+            });
+                 
+          });
+
+
+          $("#txtSendungsnr").on("keyup", function(){
+              if ($(this).val() != $(this).attr("placeholder") && $(this).val() != "") {
+                  $("#btnGo2_1").removeAttr("disabled");
+              } else {
+                  $("#btnGo2_1").attr("disabled", "true");        
+              }
+          }); 
+
+          if (debug==true)
+          {
+            $('#con_2').show('slow');
+            $('#con_3').show('slow');
+            $('#codeGot').show('slow');  
+            $('#codeFail').show('slow');  
+            $('#codeAnalyze').show('slow');  
+          }
+
+      });
+
+      function startTake(takeId)
+      {
+        $.blockUI({ message: '<h1><img src="images/loading.gif" />Lade Daten...</h1>' }); 
+            $.get('http://'+serverIp+'/set/take', { take_id : takeId }, function( data ) {
+
+              if (data!="OK")
+              {
+                $('#modalErr').modal('show');
+              }
+              else
+              {
+                $('#bc_2').removeClass("active");
+                $('#bc_3').addClass("active");
+                $('#con_2').hide('slow');
+                $('#con_3').show('slow');
+                setTimeout(loadTake, 2000);
+              }
+
+            }).fail(function() {
+              $('#modalErr').modal('show');
+            }).always(function(){$.unblockUI();});
+      }
+
+      function addPrevImg(fName, url)
+      {         
+          var img = '<div id="img-'+fName+'" class="col-md-4" style="display:none">'+
+                        '<button id="close-'+fName+'" style="margin-right:10px;margin-top:10px" type="button" class="close close-take-img" aria-hidden="true">×</button> '+ 
+                        '<div class="jumbotron jumbotron-1" style="padding-top:5px;padding-bottom:5px;">'+
+                            '<img src="'+url+'" alt="Kamera" class="img-rounded" style="width:200px;margin-top:5px;margin-bottom:5px;">'+
+                        '</div>'+
+                    '</div>';         
+          $('#con_prev').append(img);
+          $('#img-'+fName).show('slow');;
+      }
+
+      function loadTake()
+      {
+        $.get('http://'+serverIp+'/get/takelist', function( data ) {
+          if (data.length > 2 && data.startsWith("OK"))
+          {            
+            
+            var imagesStr = data.substring(2); 
+            var images = [];
+            if (imagesStr.indexOf("|") > -1)
+            {
+              images = data.substring(2).split("|");  
+            }
+            else
+            {
+              images.push(imagesStr);
+            }
+            
+            $.each(images, function(i, img){
+                var imageDetails = img.split(";");
+                addPrevImg(imageDetails[1], imageDetails[0]);
+            });               
+          }              
+          setTimeout(loadTake, 1000);
+        });
+      }
+
+      function loadBCode()
+      {
+        $.get('http://'+serverIp+'/get/code', function( data ) {
+
+              if (data=="ANALYZE" && data.length != 0)
+              {                
+                $('#codeWait').hide('slow');
+                $('#codeFail').hide('slow');
+                $('#codeGot').hide('slow'); 
+                $('#codeAnalyze').show('slow');  
+                setTimeout(loadBCodeDetail, 1000);
+              }
+              else 
+              {
+                 setTimeout(loadBCode, 1000);
+              }
+            });
+      }
+
+      function loadBCodeDetail()
+      {
+        $.get('http://'+serverIp+'/get/code/detail', function( data ) {
+
+              if (data.length >= 3 && data.indexOf(";") > -1)
+              {
+                var vals = data.split(';');
+                $('#bCodeImg').attr("src",vals[1]);
+                $('#txtSendungsnr_2').val(vals[0]);  
+                $('#codeWait').hide('slow');
+                $('#codeAnalyze').hide('slow');
+                $('#codeFail').hide('slow');
+                $('#codeGot').show('slow');  
+                $.get('http://'+serverIp+'/set/code/reset', function( data ) { }).always(function(){ setTimeout(loadBCode, 1000); });      
+
+              }
+              else if (data.length != 0 && data=="FAIL")
+              { 
+                $('#codeAnalyze').hide('slow');
+                $('#codeGot').hide('slow'); 
+                $('#codeWait').hide('slow');
+                $('#codeFail').show('slow');   
+                $.get('http://'+serverIp+'/set/code/reset', function( data ) { }).always(function(){ setTimeout(loadBCode, 1000); });  
+                        
+              }
+              else 
+              {
+                 setTimeout(loadBCodeDetail, 1000);
+              }
+            });
+      }
+
+      if (typeof String.prototype.startsWith != 'function') {
+        String.prototype.startsWith = function (str){
+          return this.slice(0, str.length) == str;
+        };
+      }
+
+    </script>
+  </body>
+</html>
